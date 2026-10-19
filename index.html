@@ -5,16 +5,69 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>재고/마스터 관리 시스템</title>
   <style>
+    /* ============================================================
+       Starbucks 디자인 토큰 (design-tokens-starbucks.md 기반)
+       ============================================================ */
+    :root {
+      /* Color - Primary (4단계 그린) */
+      --sb-green: #006241;        /* 헤딩/핵심 브랜드 그린 */
+      --sb-green-accent: #00754A; /* 주요 CTA */
+      --sb-green-house: #1E3932;  /* 다크 섹션 배경 */
+      --sb-green-uplift: #2B5148; /* 보조/장식 */
+
+      /* Color - Surface (크림 캔버스) */
+      --sb-cream: #F2F0EB;
+      --sb-ceramic: #EDEBE9;
+      --sb-white: #FFFFFF;
+
+      /* Color - Neutral */
+      --sb-ink: #27251F;          /* 기본 본문 텍스트 (warm black) */
+      --sb-black: #000000;
+      --sb-muted: #6B6760;        /* 보조 텍스트 */
+      --sb-border: #DAD6CE;       /* 크림 톤 테두리 */
+      --sb-border-soft: #E8E5DE;  /* 약한 구분선 */
+
+      /* Color - Accent */
+      --sb-gold: #CBA258;         /* Rewards/강조 전용 */
+
+      /* Color - Semantic */
+      --sb-success: #00754A;
+      --sb-error: #D62B1F;
+      --sb-warning: #CBA258;
+
+      /* Typography */
+      --sb-font: "SoDo Sans", "Lander", -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
+      --sb-tracking: -0.16px;
+
+      /* Spacing (16px 기준) */
+      --sb-space-xs: 4px;
+      --sb-space-sm: 8px;
+      --sb-space-md: 12px;
+      --sb-space-base: 16px;
+      --sb-space-lg: 24px;
+      --sb-space-xl: 32px;
+
+      /* Radius */
+      --sb-radius-pill: 50px;     /* 버튼 풀 필 */
+      --sb-radius-card: 12px;     /* 카드/패널 */
+      --sb-radius-input: 8px;     /* 입력 필드 */
+
+      /* Shadow */
+      --sb-shadow-card: 0 2px 8px rgba(30, 57, 50, 0.08);
+      --sb-shadow-float: 0 8px 24px rgba(30, 57, 50, 0.18);
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Pretendard", "Segoe UI", Roboto, sans-serif;
+      font-family: var(--sb-font);
+      letter-spacing: var(--sb-tracking);
     }
 
     body {
-      background-color: #f1f5f9;
-      color: #1e293b;
+      background-color: var(--sb-cream);
+      color: var(--sb-ink);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -24,13 +77,13 @@
 
     /* 1. 로그인 카드 (중앙 정렬) */
     .login-card {
-      background: #ffffff;
+      background: var(--sb-white);
       width: 100%;
       max-width: 420px;
       padding: 40px 32px;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-      border: 1px solid #e2e8f0;
+      border-radius: var(--sb-radius-card);
+      box-shadow: var(--sb-shadow-card);
+      border: 1px solid var(--sb-border);
     }
 
     .title-area {
@@ -41,13 +94,13 @@
     .title-area h1 {
       font-size: 22px;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--sb-green);
       margin-bottom: 8px;
     }
 
     .title-area p {
       font-size: 14px;
-      color: #64748b;
+      color: var(--sb-muted);
     }
 
     .form-group {
@@ -58,7 +111,7 @@
       display: block;
       font-size: 13px;
       font-weight: 600;
-      color: #334155;
+      color: var(--sb-ink);
       margin-bottom: 6px;
     }
 
@@ -66,36 +119,40 @@
       width: 100%;
       padding: 12px 14px;
       font-size: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      border: 1px solid var(--sb-border);
+      border-radius: var(--sb-radius-input);
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
     }
 
     .input-field:focus {
-      border-color: #2563eb;
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      border-color: var(--sb-green-accent);
+      box-shadow: 0 0 0 3px rgba(0, 117, 74, 0.12);
     }
 
     .btn {
       width: 100%;
       padding: 12px;
-      background-color: #2563eb;
-      color: #ffffff;
+      background-color: var(--sb-green-accent);
+      color: var(--sb-white);
       font-size: 15px;
       font-weight: 600;
       border: none;
-      border-radius: 6px;
+      border-radius: var(--sb-radius-pill);
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: background-color 0.2s, transform 0.1s;
     }
 
     .btn:hover {
-      background-color: #1d4ed8;
+      background-color: var(--sb-green);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
     }
 
     .btn:disabled {
-      background-color: #94a3b8;
+      background-color: var(--sb-muted);
       cursor: not-allowed;
     }
 
@@ -111,16 +168,16 @@
 
     .msg-box.error {
       display: block;
-      background-color: #fef2f2;
-      color: #dc2626;
-      border: 1px solid #fee2e2;
+      background-color: #FBEBEA;
+      color: var(--sb-error);
+      border: 1px solid #F3C9C6;
     }
 
     .msg-box.success {
       display: block;
-      background-color: #f0fdf4;
-      color: #16a34a;
-      border: 1px solid #dcfce7;
+      background-color: #E6F0EC;
+      color: var(--sb-success);
+      border: 1px solid #BFD9CF;
     }
 
     /* 2. 메인 대시보드 (사이드바 200px 고정 + 우측 가변 너비 레이아웃) */
@@ -128,17 +185,17 @@
       display: none;
       width: 100%;
       max-width: 1400px;
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
-      border: 1px solid #e2e8f0;
+      background: var(--sb-white);
+      border-radius: var(--sb-radius-card);
+      box-shadow: var(--sb-shadow-card);
+      border: 1px solid var(--sb-border);
       overflow: hidden;
     }
 
     .welcome-header {
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--sb-border-soft);
       padding: 16px 24px;
-      background-color: #ffffff;
+      background-color: var(--sb-green-house);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -146,30 +203,34 @@
 
     .welcome-header h2 {
       font-size: 18px;
-      color: #0f172a;
+      color: var(--sb-white);
     }
 
     .welcome-header p {
       font-size: 13px;
-      color: #64748b;
+      color: rgba(255, 255, 255, 0.75);
       margin-top: 4px;
     }
 
     .logout-btn {
       padding: 8px 16px;
       font-size: 13px;
-      background-color: #f1f5f9;
-      color: #475569;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      background-color: transparent;
+      color: var(--sb-white);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: var(--sb-radius-pill);
       cursor: pointer;
       font-weight: 500;
-      transition: background-color 0.2s;
+      transition: background-color 0.2s, transform 0.1s;
     }
 
     .logout-btn:hover {
-      background-color: #e2e8f0;
-      color: #0f172a;
+      background-color: rgba(255, 255, 255, 0.12);
+      color: var(--sb-white);
+    }
+
+    .logout-btn:active {
+      transform: scale(0.95);
     }
 
     /* 고정 너비 사이드바 200px 그리드 레이아웃 */
@@ -181,8 +242,8 @@
 
     /* 좌측 사이드바 (고정 폭 200px) */
     .sidebar {
-      background-color: #f8fafc;
-      border-right: 1px solid #e2e8f0;
+      background-color: var(--sb-ceramic);
+      border-right: 1px solid var(--sb-border);
       padding: 20px 12px;
       display: flex;
       flex-direction: column;
@@ -197,10 +258,10 @@
       padding: 12px 14px;
       font-size: 14px;
       font-weight: 500;
-      color: #334155;
+      color: var(--sb-ink);
       background: transparent;
       border: none;
-      border-radius: 8px;
+      border-radius: var(--sb-radius-pill);
       text-align: left;
       cursor: pointer;
       white-space: nowrap;
@@ -208,27 +269,27 @@
     }
 
     .nav-btn:hover {
-      background-color: #e2e8f0;
-      color: #0f172a;
+      background-color: rgba(0, 117, 74, 0.1);
+      color: var(--sb-green);
     }
 
     .nav-btn.active {
-      background-color: #2563eb;
-      color: #ffffff;
+      background-color: var(--sb-green-accent);
+      color: var(--sb-white);
       font-weight: 600;
-      box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+      box-shadow: 0 2px 4px rgba(0, 98, 65, 0.25);
     }
 
     .divider {
       height: 1px;
-      background-color: #cbd5e1;
+      background-color: var(--sb-border);
       margin: 8px 4px;
     }
 
     /* 우측 콘텐츠 영역 */
     .content-area {
       padding: 28px 32px;
-      background-color: #ffffff;
+      background-color: var(--sb-white);
       min-width: 0;
       overflow-x: auto;
     }
@@ -236,7 +297,7 @@
     .content-header {
       margin-bottom: 20px;
       padding-bottom: 12px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--sb-border-soft);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -245,11 +306,11 @@
     .content-header h3 {
       font-size: 20px;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--sb-green);
     }
 
     .content-body {
-      background: #ffffff;
+      background: var(--sb-white);
       min-height: 520px;
     }
 
@@ -258,14 +319,14 @@
       display: flex;
       gap: 12px;
       margin-bottom: 24px;
-      border-bottom: 2px solid #e2e8f0;
+      border-bottom: 2px solid var(--sb-border);
     }
 
     .sub-tab-btn {
       padding: 10px 20px;
       font-size: 14px;
       font-weight: 600;
-      color: #64748b;
+      color: var(--sb-muted);
       background: transparent;
       border: none;
       border-bottom: 3px solid transparent;
@@ -275,18 +336,18 @@
     }
 
     .sub-tab-btn:hover {
-      color: #2563eb;
+      color: var(--sb-green-accent);
     }
 
     .sub-tab-btn.active {
-      color: #2563eb;
-      border-bottom-color: #2563eb;
+      color: var(--sb-green);
+      border-bottom-color: var(--sb-green);
     }
 
     .placeholder-box {
-      background: #f8fafc;
-      border: 1px dashed #cbd5e1;
-      border-radius: 10px;
+      background: var(--sb-cream);
+      border: 1px dashed var(--sb-border);
+      border-radius: var(--sb-radius-card);
       padding: 40px;
       min-height: 480px;
       display: flex;
@@ -294,7 +355,7 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      color: #64748b;
+      color: var(--sb-muted);
     }
 
     /* 폼 스타일 */
@@ -305,19 +366,19 @@
     }
 
     .card-box {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
+      background: var(--sb-white);
+      border: 1px solid var(--sb-border);
+      border-radius: var(--sb-radius-card);
       padding: 24px;
     }
 
     .card-box h4 {
       font-size: 16px;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--sb-green);
       margin-bottom: 20px;
       padding-bottom: 10px;
-      border-bottom: 1px solid #f1f5f9;
+      border-bottom: 1px solid var(--sb-border-soft);
     }
 
     .form-grid {
@@ -335,33 +396,33 @@
     .field-group label {
       font-size: 13px;
       font-weight: 600;
-      color: #475569;
+      color: var(--sb-ink);
     }
 
     .field-group input, .field-group select, .field-group textarea {
       padding: 10px 14px;
       font-size: 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      border: 1px solid var(--sb-border);
+      border-radius: var(--sb-radius-input);
       outline: none;
-      background-color: #ffffff;
+      background-color: var(--sb-white);
       transition: border-color 0.2s;
     }
 
     .field-group input:focus, .field-group select:focus, .field-group textarea:focus {
-      border-color: #2563eb;
+      border-color: var(--sb-green-accent);
     }
 
     /* 시트 강조 스타일 */
     .field-group.highlight-yellow select, .field-group.highlight-yellow input {
-      background-color: #fefce8;
-      border-color: #fde047;
+      background-color: #FAF3E2;
+      border-color: var(--sb-gold);
     }
 
     .field-group.highlight-blue input {
-      background-color: #e0f2fe;
-      border-color: #38bdf8;
-      color: #0369a1;
+      background-color: #E6F0EC;
+      border-color: var(--sb-green-accent);
+      color: var(--sb-green);
       font-weight: 600;
     }
 
@@ -379,9 +440,9 @@
     }
 
     .search-card {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
+      background: var(--sb-cream);
+      border: 1px solid var(--sb-border);
+      border-radius: var(--sb-radius-card);
       padding: 20px 24px;
     }
 
@@ -401,38 +462,43 @@
       padding: 10px 20px;
       font-size: 14px;
       font-weight: 600;
-      border: none;
-      border-radius: 6px;
+      border: 1px solid transparent;
+      border-radius: var(--sb-radius-pill);
       cursor: pointer;
-      transition: background-color 0.2s;
+      transition: background-color 0.2s, transform 0.1s;
       white-space: nowrap;
     }
 
+    .action-btn:active {
+      transform: scale(0.95);
+    }
+
     .btn-primary {
-      background-color: #2563eb;
-      color: #ffffff;
+      background-color: var(--sb-green-accent);
+      color: var(--sb-white);
     }
 
     .btn-primary:hover {
-      background-color: #1d4ed8;
+      background-color: var(--sb-green);
     }
 
     .btn-secondary {
-      background-color: #64748b;
-      color: #ffffff;
+      background-color: transparent;
+      color: var(--sb-green);
+      border: 1px solid var(--sb-green-accent);
     }
 
     .btn-secondary:hover {
-      background-color: #475569;
+      background-color: rgba(0, 117, 74, 0.08);
     }
 
     /* 토글 스위치 버튼 스타일 */
     .toggle-group {
       display: inline-flex;
-      background-color: #f1f5f9;
-      border-radius: 6px;
+      background-color: var(--sb-ceramic);
+      border-radius: var(--sb-radius-pill);
       padding: 2px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--sb-border);
     }
 
     .toggle-btn {
@@ -441,23 +507,23 @@
       font-weight: 600;
       border: none;
       background: transparent;
-      color: #64748b;
-      border-radius: 4px;
+      color: var(--sb-muted);
+      border-radius: var(--sb-radius-pill);
       cursor: pointer;
       transition: all 0.2s ease;
     }
 
     .toggle-btn.active {
-      background-color: #2563eb;
-      color: #ffffff;
-      box-shadow: 0 1px 3px rgba(37, 99, 235, 0.3);
+      background-color: var(--sb-green-accent);
+      color: var(--sb-white);
+      box-shadow: 0 1px 3px rgba(0, 98, 65, 0.3);
     }
 
     /* 좌우 스크롤 테이블 스타일 */
     .table-container {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      border-radius: 10px;
+      background: var(--sb-white);
+      border: 1px solid var(--sb-border);
+      border-radius: var(--sb-radius-card);
       overflow-x: auto;
       max-width: 100%;
     }
@@ -471,19 +537,19 @@
 
     .data-table th, .data-table td {
       padding: 12px 14px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--sb-border-soft);
       white-space: nowrap;
     }
 
     .data-table th {
-      background-color: #f8fafc;
-      color: #334155;
+      background-color: var(--sb-cream);
+      color: var(--sb-ink);
       font-weight: 600;
       font-size: 13px;
     }
 
     .data-table tbody tr:hover {
-      background-color: #f1f5f9;
+      background-color: rgba(0, 117, 74, 0.05);
     }
 
     .memo-cell {
@@ -495,7 +561,7 @@
     }
 
     .memo-cell:hover {
-      color: #2563eb;
+      color: var(--sb-green-accent);
       text-decoration: underline;
     }
 
@@ -507,15 +573,15 @@
       border-radius: 20px;
     }
 
-    .badge-skincare { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .badge-skincare { background-color: #eff6ff; color: #006241; border: 1px solid #bfdbfe; }
     .badge-makeup { background-color: #fdf2f8; color: #db2777; border: 1px solid #fbcfe8; }
-    .badge-hair { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .badge-hair { background-color: #f0fdf4; color: #00754A; border: 1px solid #bbf7d0; }
     .badge-body { background-color: #fff7ed; color: #c2410c; border: 1px solid #ffedd5; }
     .badge-homme { background-color: #f5f3ff; color: #6d28d9; border: 1px solid #ddd6fe; }
-    .badge-tool { background-color: #f8fafc; color: #475569; border: 1px solid #cbd5e1; }
+    .badge-tool { background-color: #F2F0EB; color: #6B6760; border: 1px solid #DAD6CE; }
 
-    .status-badge-y { background-color: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; font-weight: 700; }
-    .status-badge-n { background-color: #fef2f2; color: #dc2626; border: 1px solid #fecaca; font-weight: 700; }
+    .status-badge-y { background-color: #E6F0EC; color: var(--sb-success); border: 1px solid #BFD9CF; font-weight: 700; }
+    .status-badge-n { background-color: #FBEBEA; color: var(--sb-error); border: 1px solid #F3C9C6; font-weight: 700; }
 
     /* 모달 스타일 */
     .modal-overlay {
@@ -525,7 +591,7 @@
       left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(15, 23, 42, 0.5);
+      background: rgba(30, 57, 50, 0.5);
       backdrop-filter: blur(2px);
       z-index: 1000;
       justify-content: center;
@@ -533,11 +599,11 @@
     }
 
     .modal-card {
-      background: #ffffff;
+      background: var(--sb-white);
       width: 90%;
       max-width: 760px;
-      border-radius: 12px;
-      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+      border-radius: var(--sb-radius-card);
+      box-shadow: var(--sb-shadow-float);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -546,8 +612,8 @@
 
     .modal-header {
       padding: 16px 24px;
-      background: #f8fafc;
-      border-bottom: 1px solid #e2e8f0;
+      background: var(--sb-green-house);
+      border-bottom: 1px solid var(--sb-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -556,14 +622,14 @@
     .modal-header h4 {
       font-size: 16px;
       font-weight: 700;
-      color: #0f172a;
+      color: var(--sb-white);
     }
 
     .close-btn {
       background: transparent;
       border: none;
       font-size: 20px;
-      color: #64748b;
+      color: var(--sb-white);
       cursor: pointer;
     }
 
@@ -581,12 +647,12 @@
 
     .result-table th, .result-table td {
       padding: 10px 12px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--sb-border-soft);
     }
 
     .result-table th {
-      background-color: #f1f5f9;
-      color: #334155;
+      background-color: var(--sb-cream);
+      color: var(--sb-ink);
       font-weight: 600;
     }
 
@@ -594,15 +660,20 @@
       padding: 5px 12px;
       font-size: 12px;
       font-weight: 600;
-      background-color: #2563eb;
-      color: #ffffff;
+      background-color: var(--sb-green-accent);
+      color: var(--sb-white);
       border: none;
-      border-radius: 4px;
+      border-radius: var(--sb-radius-pill);
       cursor: pointer;
+      transition: background-color 0.2s, transform 0.1s;
     }
 
     .select-item-btn:hover {
-      background-color: #1d4ed8;
+      background-color: var(--sb-green);
+    }
+
+    .select-item-btn:active {
+      transform: scale(0.95);
     }
   </style>
 </head>
@@ -682,7 +753,7 @@
         <button class="close-btn" onclick="closeModal()">&times;</button>
       </div>
       <div class="modal-body">
-        <p id="modalSubTitle" style="margin-bottom: 12px; color: #475569;">검색 결과가 여러 건 발견되었습니다. 불러올 항목을 선택하세요.</p>
+        <p id="modalSubTitle" style="margin-bottom: 12px; color: #6B6760;">검색 결과가 여러 건 발견되었습니다. 불러올 항목을 선택하세요.</p>
         <table class="result-table">
           <thead>
             <tr id="modalTableHeader">
@@ -946,31 +1017,31 @@
           <form id="productRegisterForm" onsubmit="handleProductSubmit(event)">
             <div class="form-grid">
               <div class="field-group">
-                <label for="prodCode">상품코드 <span style="color: #dc2626;">*</span></label>
+                <label for="prodCode">상품코드 <span style="color: #D62B1F;">*</span></label>
                 <input type="text" id="prodCode" placeholder="예: PROD0001" required />
               </div>
 
               <div class="field-group">
-                <label for="prodName">상품명 <span style="color: #dc2626;">*</span></label>
+                <label for="prodName">상품명 <span style="color: #D62B1F;">*</span></label>
                 <input type="text" id="prodName" placeholder="예: 기초 보습 수분크림 50ml" required />
               </div>
 
               <div class="field-group highlight-yellow">
-                <label for="prodCategoryLarge">상품분류_대 <span style="color: #dc2626;">*</span></label>
+                <label for="prodCategoryLarge">상품분류_대 <span style="color: #D62B1F;">*</span></label>
                 <select id="prodCategoryLarge" onchange="onCategoryLargeChange()" required>
                   <option value="">-- 상품분류 마스터 대분류 선택 --</option>
                 </select>
               </div>
 
               <div class="field-group highlight-yellow">
-                <label for="prodCategoryMid">상품분류_중 <span style="color: #dc2626;">*</span></label>
+                <label for="prodCategoryMid">상품분류_중 <span style="color: #D62B1F;">*</span></label>
                 <select id="prodCategoryMid" required>
                   <option value="">-- 대분류를 먼저 선택해 주세요 --</option>
                 </select>
               </div>
 
               <div class="field-group highlight-yellow" style="grid-column: span 2;">
-                <label>협력회사 (와일드카드 검색 연동) <span style="color: #dc2626;">*</span></label>
+                <label>협력회사 (와일드카드 검색 연동) <span style="color: #D62B1F;">*</span></label>
                 <div class="input-with-button">
                   <input type="hidden" id="prodVendorCode" required />
                   <input 
@@ -984,13 +1055,13 @@
                     🔍 와일드카드 검색
                   </button>
                 </div>
-                <p id="prodVendorSelectedInfo" style="font-size: 12px; color: #2563eb; margin-top: 4px; font-weight: 600;">
+                <p id="prodVendorSelectedInfo" style="font-size: 12px; color: #00754A; margin-top: 4px; font-weight: 600;">
                   선택된 협력회사: (검색어를 입력하고 [검색]을 눌러주세요)
                 </p>
               </div>
 
               <div class="field-group">
-                <label for="prodStatus">운영상태 <span style="color: #dc2626;">*</span></label>
+                <label for="prodStatus">운영상태 <span style="color: #D62B1F;">*</span></label>
                 <select id="prodStatus" required>
                   <option value="Y" selected>Y (운영 중)</option>
                   <option value="N">N (미운영 / 중단)</option>
@@ -1336,7 +1407,7 @@
               </thead>
               <tbody id="productTableBody">
                 <tr>
-                  <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+                  <td colspan="10" style="text-align: center; padding: 40px; color: #6B6760;">
                     데이터를 불러오는 중입니다...
                   </td>
                 </tr>
@@ -1400,7 +1471,7 @@
 
       tbody.innerHTML = `
         <tr>
-          <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+          <td colspan="10" style="text-align: center; padding: 40px; color: #6B6760;">
             ⏳ 상품 마스터 목록을 불러오는 중입니다...
           </td>
         </tr>
@@ -1416,7 +1487,7 @@
         } else {
           tbody.innerHTML = `
             <tr>
-              <td colspan="10" style="text-align: center; padding: 40px; color: #dc2626;">
+              <td colspan="10" style="text-align: center; padding: 40px; color: #D62B1F;">
                 ❌ 상품 마스터 데이터를 불러오지 못했습니다.
               </td>
             </tr>
@@ -1426,7 +1497,7 @@
         console.error("Product Data Fetch Error:", err);
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" style="text-align: center; padding: 40px; color: #dc2626;">
+            <td colspan="10" style="text-align: center; padding: 40px; color: #D62B1F;">
               ⚠️ 통신 중 오류가 발생했습니다.
             </td>
           </tr>
@@ -1441,7 +1512,7 @@
       if (!list || list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+            <td colspan="10" style="text-align: center; padding: 40px; color: #6B6760;">
               등록된 상품 마스터가 없습니다. 신규 상품을 등록해 주세요.
             </td>
           </tr>
@@ -1469,15 +1540,15 @@
 
         return `
           <tr>
-            <td style="text-align: center; color: #94a3b8; font-weight: 600;">${index + 1}</td>
+            <td style="text-align: center; color: #B8B4AC; font-weight: 600;">${index + 1}</td>
             <td><strong>${code}</strong></td>
             <td>${name}</td>
             <td><span class="badge ${badgeClass}">${catL}</span></td>
             <td>${catM}</td>
             <td>${vName} (${vCode})</td>
             <td style="text-align: center;"><span class="badge ${statusClass}">${statusVal}</span></td>
-            <td style="font-size: 13px; color: #64748b;">${regD}</td>
-            <td><strong style="color: #0369a1;">${mgr}</strong></td>
+            <td style="font-size: 13px; color: #6B6760;">${regD}</td>
+            <td><strong style="color: #006241;">${mgr}</strong></td>
             <td class="memo-cell" title="${escapedMemo}">${rawMemo}</td>
           </tr>
         `;
@@ -1580,12 +1651,12 @@
             <h4>📦 패키지 출고 기본 정보</h4>
             <div class="form-grid">
               <div class="field-group">
-                <label for="pkgShipDate">출고일 <span style="color: #dc2626;">*</span></label>
+                <label for="pkgShipDate">출고일 <span style="color: #D62B1F;">*</span></label>
                 <input type="date" id="pkgShipDate" value="${todayDate}" required />
               </div>
 
               <div class="field-group">
-                <label for="pkgSkinType">피부타입 코드 <span style="color: #dc2626;">*</span></label>
+                <label for="pkgSkinType">피부타입 코드 <span style="color: #D62B1F;">*</span></label>
                 <input 
                   type="text" 
                   id="pkgSkinType" 
@@ -1595,7 +1666,7 @@
               </div>
 
               <div class="field-group">
-                <label for="pkgShipQty">출고 수량 (패키지 세트 수량) <span style="color: #dc2626;">*</span></label>
+                <label for="pkgShipQty">출고 수량 (패키지 세트 수량) <span style="color: #D62B1F;">*</span></label>
                 <input type="number" id="pkgShipQty" min="1" value="1" required />
               </div>
 
@@ -1612,7 +1683,7 @@
           </div>
 
           <div class="card-box">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #f1f5f9; padding-bottom: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid #F2F0EB; padding-bottom: 10px;">
               <h4 style="margin: 0; border: none; padding: 0;">🧩 패키지 구성품 정보 (최대 8개 한눈에 보기)</h4>
               <button 
                 type="button" 
@@ -1720,7 +1791,7 @@
 
         return `
           <tr>
-            <td style="text-align: center; font-weight: 700; color: #64748b;">#${idx + 1}</td>
+            <td style="text-align: center; font-weight: 700; color: #6B6760;">#${idx + 1}</td>
             <td style="text-align: center;">
               <div class="toggle-group">
                 <button 
@@ -1752,8 +1823,8 @@
                   </button>
                 </div>
                 ${hasProduct 
-                  ? `<div style="font-size: 12px; font-weight: 700; color: #2563eb;">✅ [${item.productCode}] ${item.productName}</div>`
-                  : `<div style="font-size: 11px; color: #94a3b8;">⚠️ 상품 마스터에서 상품을 선택하세요.</div>`
+                  ? `<div style="font-size: 12px; font-weight: 700; color: #00754A;">✅ [${item.productCode}] ${item.productName}</div>`
+                  : `<div style="font-size: 11px; color: #B8B4AC;">⚠️ 상품 마스터에서 상품을 선택하세요.</div>`
                 }
               </div>
             </td>
@@ -1761,7 +1832,7 @@
               <div style="background-color: #fefce8; border: 1px solid #fde047; padding: 6px 10px; border-radius: 4px; font-size: 12px; min-height: 32px; display: flex; align-items: center;">
                 ${item.categoryLarge 
                   ? `<span><strong>${item.categoryLarge}</strong> / ${item.categoryMid}</span>` 
-                  : `<span style="color: #94a3b8;">자동 연동</span>`
+                  : `<span style="color: #B8B4AC;">자동 연동</span>`
                 }
               </div>
             </td>
@@ -1769,7 +1840,7 @@
               <div style="background-color: #fefce8; border: 1px solid #fde047; padding: 6px 10px; border-radius: 4px; font-size: 12px; min-height: 32px; display: flex; align-items: center;">
                 ${item.vendorName 
                   ? `<span><strong>${item.vendorName}</strong> (${item.vendorCode})</span>` 
-                  : `<span style="color: #94a3b8;">자동 연동</span>`
+                  : `<span style="color: #B8B4AC;">자동 연동</span>`
                 }
               </div>
             </td>
@@ -1789,7 +1860,7 @@
                 <button type="button" class="action-btn btn-secondary" style="padding: 4px 8px; font-size: 12px;" onclick="removePackageComponentRow(${idx})">
                   🗑️
                 </button>
-              ` : `<span style="color: #cbd5e1;">-</span>`}
+              ` : `<span style="color: #DAD6CE;">-</span>`}
             </td>
           </tr>
         `;
@@ -2022,7 +2093,7 @@
               </thead>
               <tbody id="packageTableBody">
                 <tr>
-                  <td colspan="14" style="text-align: center; padding: 40px; color: #64748b;">
+                  <td colspan="14" style="text-align: center; padding: 40px; color: #6B6760;">
                     데이터를 불러오는 중입니다...
                   </td>
                 </tr>
@@ -2046,7 +2117,7 @@
 
       tbody.innerHTML = `
         <tr>
-          <td colspan="14" style="text-align: center; padding: 40px; color: #64748b;">
+          <td colspan="14" style="text-align: center; padding: 40px; color: #6B6760;">
             ⏳ 구글 시트에서 패키지 마스터 내역을 불러오는 중입니다...
           </td>
         </tr>
@@ -2062,7 +2133,7 @@
         } else {
           tbody.innerHTML = `
             <tr>
-              <td colspan="14" style="text-align: center; padding: 40px; color: #64748b;">
+              <td colspan="14" style="text-align: center; padding: 40px; color: #6B6760;">
                 등록된 패키지 마스터 내역이 없거나 웹 앱 권한 설정이 필요합니다.
               </td>
             </tr>
@@ -2072,7 +2143,7 @@
         console.error("Package Data Fetch Error:", err);
         tbody.innerHTML = `
           <tr>
-            <td colspan="14" style="text-align: center; padding: 40px; color: #64748b;">
+            <td colspan="14" style="text-align: center; padding: 40px; color: #6B6760;">
               📌 Apps Script 배포 설정에서 [액세스 권한이 있는 사용자]를 '모든 사용자(Anyone)'로 변경해 주세요.
             </td>
           </tr>
@@ -2087,7 +2158,7 @@
       if (!list || list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="14" style="text-align: center; padding: 40px; color: #64748b;">
+            <td colspan="14" style="text-align: center; padding: 40px; color: #6B6760;">
               선택한 출고일 및 검색 조건에 해당하는 패키지 내역이 없습니다.
             </td>
           </tr>
@@ -2122,10 +2193,10 @@
 
         return `
           <tr>
-            <td style="text-align: center; color: #94a3b8; font-weight: 600;">${index + 1}</td>
+            <td style="text-align: center; color: #B8B4AC; font-weight: 600;">${index + 1}</td>
             <td><strong>${sDate}</strong></td>
             <td><span class="badge badge-body">${sType}</span></td>
-            <td style="text-align: right; color: #2563eb; font-weight: 700;">${sQty} 세트</td>
+            <td style="text-align: right; color: #00754A; font-weight: 700;">${sQty} 세트</td>
             <td style="text-align: center;"><span class="badge ${badgeClass}">${pType}</span></td>
             <td>${catL}</td>
             <td>${catM}</td>
@@ -2133,9 +2204,9 @@
             <td>${vName}</td>
             <td><strong>${pCode}</strong></td>
             <td>${pName}</td>
-            <td style="text-align: right; color: #16a34a; font-weight: 700;">${pQty} 개</td>
-            <td><strong style="color: #0369a1;">${insp}</strong></td>
-            <td style="font-size: 13px; color: #64748b;">${regD}</td>
+            <td style="text-align: right; color: #00754A; font-weight: 700;">${pQty} 개</td>
+            <td><strong style="color: #006241;">${insp}</strong></td>
+            <td style="font-size: 13px; color: #6B6760;">${regD}</td>
           </tr>
         `;
       }).join("");
@@ -2236,7 +2307,7 @@
             <div class="form-grid">
 
               <div class="field-group highlight-yellow" style="grid-column: span 2;">
-                <label>상품 검색 (코드 또는 상품명) <span style="color: #dc2626;">*</span></label>
+                <label>상품 검색 (코드 또는 상품명) <span style="color: #D62B1F;">*</span></label>
                 <div class="input-with-button">
                   <input 
                     type="text" 
@@ -2249,7 +2320,7 @@
                     🔍 상품 검색
                   </button>
                 </div>
-                <p id="inboundProductSelectedInfo" style="font-size: 12px; color: #2563eb; margin-top: 4px; font-weight: 600;">
+                <p id="inboundProductSelectedInfo" style="font-size: 12px; color: #00754A; margin-top: 4px; font-weight: 600;">
                   선택된 상품: (상품을 먼저 검색해 주세요)
                 </p>
               </div>
@@ -2260,7 +2331,7 @@
               </div>
 
               <div class="field-group">
-                <label for="inboundDate">상품 입고일 <span style="color: #dc2626;">*</span></label>
+                <label for="inboundDate">상품 입고일 <span style="color: #D62B1F;">*</span></label>
                 <input type="date" id="inboundDate" value="${todayDate}" onchange="updateInboundCodeOnDateChange()" required />
               </div>
 
@@ -2285,12 +2356,12 @@
               </div>
 
               <div class="field-group">
-                <label for="inboundGoodQty">정상 입고량 (수량) <span style="color: #dc2626;">*</span></label>
+                <label for="inboundGoodQty">정상 입고량 (수량) <span style="color: #D62B1F;">*</span></label>
                 <input type="number" id="inboundGoodQty" min="0" value="0" required />
               </div>
 
               <div class="field-group">
-                <label for="inboundBadQty">불량 입고량 (수량) <span style="color: #dc2626;">*</span></label>
+                <label for="inboundBadQty">불량 입고량 (수량) <span style="color: #D62B1F;">*</span></label>
                 <input type="number" id="inboundBadQty" min="0" value="0" required />
               </div>
 
@@ -2377,7 +2448,7 @@
         selectedProductCategoryLarge = "";
         selectedProductCategoryMid = "";
         document.getElementById("inboundProductSelectedInfo").textContent = "❌ 미등록 상품입니다. 먼저 상품을 등록해 주세요.";
-        document.getElementById("inboundProductSelectedInfo").style.color = "#dc2626";
+        document.getElementById("inboundProductSelectedInfo").style.color = "#D62B1F";
       } else if (filtered.length === 1) {
         selectProductForInboundForm(filtered[0]);
       } else {
@@ -2426,7 +2497,7 @@
 
       const infoEl = document.getElementById("inboundProductSelectedInfo");
       infoEl.textContent = `✅ 선택 완료: [${prodCode}] ${prodName} | 분류: ${selectedProductCategoryLarge}/${selectedProductCategoryMid} | 협력회사: ${vName}`;
-      infoEl.style.color = "#2563eb";
+      infoEl.style.color = "#00754A";
     }
 
     async function handleInboundSubmit(e) {
@@ -2597,7 +2668,7 @@
               </thead>
               <tbody id="inboundTableBody">
                 <tr>
-                  <td colspan="11" style="text-align: center; padding: 40px; color: #64748b;">
+                  <td colspan="11" style="text-align: center; padding: 40px; color: #6B6760;">
                     데이터를 불러오는 중입니다...
                   </td>
                 </tr>
@@ -2621,7 +2692,7 @@
 
       tbody.innerHTML = `
         <tr>
-          <td colspan="11" style="text-align: center; padding: 40px; color: #64748b;">
+          <td colspan="11" style="text-align: center; padding: 40px; color: #6B6760;">
             ⏳ 구글 시트에서 상품 입고 내역을 불러오는 중입니다...
           </td>
         </tr>
@@ -2637,7 +2708,7 @@
         } else {
           tbody.innerHTML = `
             <tr>
-              <td colspan="11" style="text-align: center; padding: 40px; color: #dc2626;">
+              <td colspan="11" style="text-align: center; padding: 40px; color: #D62B1F;">
                 ❌ 상품 입고 내역을 불러오지 못했습니다.
               </td>
             </tr>
@@ -2647,7 +2718,7 @@
         console.error("Inbound Data Fetch Error:", err);
         tbody.innerHTML = `
           <tr>
-            <td colspan="11" style="text-align: center; padding: 40px; color: #dc2626;">
+            <td colspan="11" style="text-align: center; padding: 40px; color: #D62B1F;">
               ⚠️ 통신 중 오류가 발생했습니다.
             </td>
           </tr>
@@ -2662,7 +2733,7 @@
       if (!list || list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="11" style="text-align: center; padding: 40px; color: #64748b;">
+            <td colspan="11" style="text-align: center; padding: 40px; color: #6B6760;">
               선택한 상품 입고일 및 검색 조건에 해당하는 내역이 없습니다.
             </td>
           </tr>
@@ -2686,16 +2757,16 @@
 
         return `
           <tr>
-            <td style="text-align: center; color: #94a3b8; font-weight: 600;">${index + 1}</td>
+            <td style="text-align: center; color: #B8B4AC; font-weight: 600;">${index + 1}</td>
             <td><strong>${inCode}</strong></td>
             <td>${inDate}</td>
             <td>${pCode}</td>
             <td>${pName}</td>
             <td>${vName} (${vCode})</td>
-            <td style="text-align: right; color: #16a34a; font-weight: 700;">${gQty} 개</td>
-            <td style="text-align: right; color: ${Number(bQty) > 0 ? '#dc2626' : '#64748b'}; font-weight: 700;">${bQty} 개</td>
-            <td><strong style="color: #0369a1;">${insp}</strong></td>
-            <td style="font-size: 13px; color: #64748b;">${regD}</td>
+            <td style="text-align: right; color: #00754A; font-weight: 700;">${gQty} 개</td>
+            <td style="text-align: right; color: ${Number(bQty) > 0 ? '#D62B1F' : '#6B6760'}; font-weight: 700;">${bQty} 개</td>
+            <td><strong style="color: #006241;">${insp}</strong></td>
+            <td style="font-size: 13px; color: #6B6760;">${regD}</td>
             <td class="memo-cell" title="${escapedMemo}">${rawMemo}</td>
           </tr>
         `;
@@ -2752,29 +2823,29 @@
           <!-- 1. 상단 현황 KPI 카드 3종 -->
           <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;">
             <!-- 1) 총 보유 상품 종류 (현재 재고 > 0) -->
-            <div class="card-box" style="padding: 16px 20px; border-left: 4px solid #2563eb;">
-              <span style="font-size: 12px; color: #64748b; font-weight: 600;">📦 총 보유 상품 종류 (재고 > 0)</span>
-              <h3 id="kpiTotalProductCount" style="font-size: 24px; color: #0f172a; margin-top: 4px;">0 종</h3>
+            <div class="card-box" style="padding: 16px 20px; border-left: 4px solid #1E3932;">
+              <span style="font-size: 12px; color: #6B6760; font-weight: 600;">📦 총 보유 상품 종류 (재고 > 0)</span>
+              <h3 id="kpiTotalProductCount" style="font-size: 24px; color: #27251F; margin-top: 4px;">0 종</h3>
             </div>
 
             <!-- 2) 총 잔여 재고 수량 (모든 재고 수량의 합) -->
-            <div class="card-box" style="padding: 16px 20px; border-left: 4px solid #16a34a;">
-              <span style="font-size: 12px; color: #64748b; font-weight: 600;">📊 총 잔여 재고 수량 (전체 합계)</span>
-              <h3 id="kpiTotalStockQty" style="font-size: 24px; color: #16a34a; margin-top: 4px;">0 개</h3>
+            <div class="card-box" style="padding: 16px 20px; border-left: 4px solid #00754A;">
+              <span style="font-size: 12px; color: #6B6760; font-weight: 600;">📊 총 잔여 재고 수량 (전체 합계)</span>
+              <h3 id="kpiTotalStockQty" style="font-size: 24px; color: #00754A; margin-top: 4px;">0 개</h3>
             </div>
 
             <!-- 3) 과다 재고 집중 관리 상품 (사용자 정수 입력 기준값 초과) -->
-            <div class="card-box" style="padding: 16px 20px; border-left: 4px solid #eab308;">
+            <div class="card-box" style="padding: 16px 20px; border-left: 4px solid #CBA258;">
               <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-size: 12px; color: #64748b; font-weight: 600;">⚠️ 과다 재고 집중 관리 상품</span>
-                <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #475569;">
+                <span style="font-size: 12px; color: #6B6760; font-weight: 600;">⚠️ 과다 재고 집중 관리 상품</span>
+                <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #6B6760;">
                   <span>기준:</span>
                   <input 
                     type="number" 
                     id="overstockThresholdInput" 
                     value="${overstockThreshold}" 
                     min="1" 
-                    style="width: 65px; padding: 3px 6px; font-size: 12px; font-weight: 700; text-align: center; border: 1px solid #cbd5e1; border-radius: 4px;"
+                    style="width: 65px; padding: 3px 6px; font-size: 12px; font-weight: 700; text-align: center; border: 1px solid #DAD6CE; border-radius: 4px;"
                     onchange="updateOverstockThreshold(this.value)"
                   />
                   <span>개 초과</span>
@@ -2842,7 +2913,7 @@
                   <th>협력회사 코드</th>
                   <th>협력회사 명</th>
                   <th 
-                    style="text-align: right; cursor: pointer; user-select: none; color: #2563eb; font-weight: 700;"
+                    style="text-align: right; cursor: pointer; user-select: none; color: #00754A; font-weight: 700;"
                     onclick="toggleStockSort()"
                     title="클릭하여 오름차순/내림차순/기본 정렬 전환"
                   >
@@ -2852,7 +2923,7 @@
               </thead>
               <tbody id="inventoryStockTableBody">
                 <tr>
-                  <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+                  <td colspan="8" style="text-align: center; padding: 40px; color: #6B6760;">
                     데이터를 불러오는 중입니다...
                   </td>
                 </tr>
@@ -2987,7 +3058,7 @@
 
       tbody.innerHTML = `
         <tr>
-          <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+          <td colspan="8" style="text-align: center; padding: 40px; color: #6B6760;">
             ⏳ '현재 재고' 시트 및 상품 마스터 데이터를 불러오는 중입니다...
           </td>
         </tr>
@@ -3043,7 +3114,7 @@
         console.error("Stock Fetch Error:", err);
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align: center; padding: 40px; color: #dc2626;">
+            <td colspan="8" style="text-align: center; padding: 40px; color: #D62B1F;">
               ⚠️ 현재 재고 데이터를 불러오는 중 오류가 발생했습니다.
             </td>
           </tr>
@@ -3083,7 +3154,7 @@
       if (!list || list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="8" style="text-align: center; padding: 40px; color: #64748b;">
+            <td colspan="8" style="text-align: center; padding: 40px; color: #6B6760;">
               검색 조건 또는 과다 재고 필터에 일치하는 현재 재고 항목이 없습니다.
             </td>
           </tr>
@@ -3105,14 +3176,14 @@
 
         return `
           <tr>
-            <td style="text-align: center; color: #94a3b8; font-weight: 600;">${index + 1}</td>
+            <td style="text-align: center; color: #B8B4AC; font-weight: 600;">${index + 1}</td>
             <td><strong>${pCode}</strong></td>
             <td>${pName}</td>
             <td><span class="badge ${badgeClass}">${catL}</span></td>
             <td>${catM}</td>
             <td>${vCode}</td>
             <td>${vName}</td>
-            <td style="text-align: right; color: ${qty === 0 ? '#64748b' : (isOver ? '#ca8a04' : '#16a34a')}; font-weight: 700; font-size: 15px;">
+            <td style="text-align: right; color: ${qty === 0 ? '#6B6760' : (isOver ? '#ca8a04' : '#00754A')}; font-weight: 700; font-size: 15px;">
               ${qty.toLocaleString()} 개
             </td>
           </tr>
@@ -3222,7 +3293,7 @@
             <div class="form-grid">
 
               <div class="field-group highlight-yellow" style="grid-column: span 2;">
-                <label>상품 검색 (코드 또는 상품명) <span style="color: #dc2626;">*</span></label>
+                <label>상품 검색 (코드 또는 상품명) <span style="color: #D62B1F;">*</span></label>
                 <div class="input-with-button">
                   <input 
                     type="text" 
@@ -3235,13 +3306,13 @@
                     🔍 상품 검색
                   </button>
                 </div>
-                <p id="adjustProductSelectedInfo" style="font-size: 12px; color: #2563eb; margin-top: 4px; font-weight: 600;">
+                <p id="adjustProductSelectedInfo" style="font-size: 12px; color: #00754A; margin-top: 4px; font-weight: 600;">
                   선택된 상품: (상품을 먼저 검색해 주세요)
                 </p>
               </div>
 
               <div class="field-group">
-                <label for="adjDate">재고 조정일 <span style="color: #dc2626;">*</span></label>
+                <label for="adjDate">재고 조정일 <span style="color: #D62B1F;">*</span></label>
                 <input type="date" id="adjDate" value="${todayDate}" required />
               </div>
 
@@ -3266,7 +3337,7 @@
               </div>
 
               <div class="field-group">
-                <label for="adjQty">재고 조정량 (+ / - 모두 가능) <span style="color: #dc2626;">*</span></label>
+                <label for="adjQty">재고 조정량 (+ / - 모두 가능) <span style="color: #D62B1F;">*</span></label>
                 <input type="number" id="adjQty" placeholder="예: 10 (증가) 또는 -5 (감소)" required />
               </div>
 
@@ -3281,7 +3352,7 @@
               </div>
 
               <div class="field-group" style="grid-column: span 2;">
-                <label for="adjReason">조정 사유 <span style="color: #dc2626;">*</span></label>
+                <label for="adjReason">조정 사유 <span style="color: #D62B1F;">*</span></label>
                 <textarea id="adjReason" rows="3" placeholder="재고 조정 사유를 입력하세요 (예: 파손, 분실, 실사 차이 조정 등)" required></textarea>
               </div>
             </div>
@@ -3341,7 +3412,7 @@
         document.getElementById("adjustVendorCode").value = "";
         document.getElementById("adjustVendorName").value = "";
         document.getElementById("adjustProductSelectedInfo").textContent = "❌ 미등록 상품입니다. 먼저 상품을 등록해 주세요.";
-        document.getElementById("adjustProductSelectedInfo").style.color = "#dc2626";
+        document.getElementById("adjustProductSelectedInfo").style.color = "#D62B1F";
       } else if (filtered.length === 1) {
         selectProductForAdjustForm(filtered[0]);
       } else {
@@ -3388,7 +3459,7 @@
 
       const infoEl = document.getElementById("adjustProductSelectedInfo");
       infoEl.textContent = `✅ 선택 완료: [${prodCode}] ${prodName} | 협력회사: ${vName} (${vCode})`;
-      infoEl.style.color = "#2563eb";
+      infoEl.style.color = "#00754A";
     }
 
     async function handleAdjustSubmit(e) {
@@ -3537,7 +3608,7 @@
               </thead>
               <tbody id="adjustTableBody">
                 <tr>
-                  <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+                  <td colspan="10" style="text-align: center; padding: 40px; color: #6B6760;">
                     데이터를 불러오는 중입니다...
                   </td>
                 </tr>
@@ -3561,7 +3632,7 @@
 
       tbody.innerHTML = `
         <tr>
-          <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+          <td colspan="10" style="text-align: center; padding: 40px; color: #6B6760;">
             ⏳ 구글 시트에서 재고 조정 내역을 불러오는 중입니다...
           </td>
         </tr>
@@ -3577,7 +3648,7 @@
         } else {
           tbody.innerHTML = `
             <tr>
-              <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+              <td colspan="10" style="text-align: center; padding: 40px; color: #6B6760;">
                 등록된 재고 조정 내역이 없거나 웹 앱 권한 설정이 필요합니다.
               </td>
             </tr>
@@ -3587,7 +3658,7 @@
         console.error("Adjust Data Fetch Error:", err);
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" style="text-align: center; padding: 40px; color: #dc2626;">
+            <td colspan="10" style="text-align: center; padding: 40px; color: #D62B1F;">
               ⚠️ 재고 조정 데이터를 불러오는 중 통신 오류가 발생했습니다.
             </td>
           </tr>
@@ -3602,7 +3673,7 @@
       if (!list || list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="10" style="text-align: center; padding: 40px; color: #64748b;">
+            <td colspan="10" style="text-align: center; padding: 40px; color: #6B6760;">
               선택한 조정일 및 검색 조건에 해당하는 재고 조정 내역이 없습니다.
             </td>
           </tr>
@@ -3619,7 +3690,7 @@
         const vName = item.vendorName || item["협력회사 명"] || "-";
         const qtyNum = Number(item.adjQty ?? item["재고 조정량"] ?? 0);
         const formattedQty = (qtyNum > 0 ? `+${qtyNum}` : `${qtyNum}`) + " 개";
-        const qtyColor = qtyNum > 0 ? '#16a34a' : (qtyNum < 0 ? '#dc2626' : '#64748b');
+        const qtyColor = qtyNum > 0 ? '#00754A' : (qtyNum < 0 ? '#D62B1F' : '#6B6760');
         const reason = item.adjReason || item["조정 사유"] || "-";
         const insp = item.inspector || item["검수자"] || "-";
         
@@ -3635,7 +3706,7 @@
 
         return `
           <tr>
-            <td style="text-align: center; color: #94a3b8; font-weight: 600;">${index + 1}</td>
+            <td style="text-align: center; color: #B8B4AC; font-weight: 600;">${index + 1}</td>
             <td><strong>${aDate}</strong></td>
             <td><strong>${pCode}</strong></td>
             <td>${pName}</td>
@@ -3643,8 +3714,8 @@
             <td>${vName}</td>
             <td style="text-align: right; color: ${qtyColor}; font-weight: 700;">${formattedQty}</td>
             <td class="memo-cell" title="${escapedReason}">${reason}</td>
-            <td><strong style="color: #0369a1;">${insp}</strong></td>
-            <td style="font-size: 13px; color: #64748b;">${regD}</td>
+            <td><strong style="color: #006241;">${insp}</strong></td>
+            <td style="font-size: 13px; color: #6B6760;">${regD}</td>
           </tr>
         `;
       }).join("");
@@ -3947,7 +4018,7 @@
               </thead>
               <tbody id="categoryTableBody">
                 <tr>
-                  <td colspan="4" style="text-align: center; padding: 40px; color: #64748b;">
+                  <td colspan="4" style="text-align: center; padding: 40px; color: #6B6760;">
                     데이터를 불러오는 중입니다...
                   </td>
                 </tr>
@@ -3971,7 +4042,7 @@
 
       tbody.innerHTML = `
         <tr>
-          <td colspan="4" style="text-align: center; padding: 40px; color: #64748b;">
+          <td colspan="4" style="text-align: center; padding: 40px; color: #6B6760;">
             ⏳ 데이터를 불러오는 중입니다...
           </td>
         </tr>
@@ -3987,7 +4058,7 @@
         } else {
           tbody.innerHTML = `
             <tr>
-              <td colspan="4" style="text-align: center; padding: 40px; color: #dc2626;">
+              <td colspan="4" style="text-align: center; padding: 40px; color: #D62B1F;">
                 ❌ 데이터를 불러오지 못했습니다.
               </td>
             </tr>
@@ -3997,7 +4068,7 @@
         console.error("Category Fetch Error:", err);
         tbody.innerHTML = `
           <tr>
-            <td colspan="4" style="text-align: center; padding: 40px; color: #dc2626;">
+            <td colspan="4" style="text-align: center; padding: 40px; color: #D62B1F;">
               ⚠️ 통신 중 오류가 발생했습니다.
             </td>
           </tr>
@@ -4012,7 +4083,7 @@
       if (!list || list.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="4" style="text-align: center; padding: 40px; color: #64748b;">
+            <td colspan="4" style="text-align: center; padding: 40px; color: #6B6760;">
               검색 결과와 일치하는 상품분류 항목이 없습니다.
             </td>
           </tr>
@@ -4024,10 +4095,10 @@
         const badgeClass = getBadgeClass(item.categoryLarge);
         return `
           <tr>
-            <td style="text-align: center; color: #94a3b8; font-weight: 600;">${index + 1}</td>
+            <td style="text-align: center; color: #B8B4AC; font-weight: 600;">${index + 1}</td>
             <td><span class="badge ${badgeClass}">${item.categoryLarge || "-"}</span></td>
             <td><strong>${item.categoryMid || "-"}</strong></td>
-            <td style="color: #475569; line-height: 1.5;">${item.description || "-"}</td>
+            <td style="color: #6B6760; line-height: 1.5;">${item.description || "-"}</td>
           </tr>
         `;
       }).join("");
